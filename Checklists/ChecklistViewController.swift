@@ -8,9 +8,48 @@
 
 import UIKit
 
-class ChecklistViewController: UITableViewController {
+class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
     
-    var items: [CheckListItem]
+    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem) {
+        
+        navigationController?.popViewController(animated: true)
+        
+    }
+    
+    
+    @IBAction func addItem(_ sender: Any) {
+        print("Item added")
+        
+        //create a place for the new item to be added - the end of the array is the way to go
+        //create a new checklist item
+        //give the item some values
+        //add the new item to the existing array of items
+        //create a new indexpath - where to add it to the table view
+        //use the tableview insert rows method to add a new row
+        
+        var titles = ["Say hi to Neil", "Say hi to Kora", "fly the drone","read more of book", "go for a run" ]
+        let randomNumber = arc4random_uniform(UInt32(titles.count))
+        let title = titles[Int(randomNumber)]
+        
+        let newRowIndex = items.count
+        
+        let item = CheckListItem()
+        item.text = title
+        item.checked = true
+        items.append(item)
+        
+        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPaths = [indexPath]
+
+        tableView.insertRows(at: indexPaths, with: .fade)   
+    }
+    
+    
+    var items: [CheckListItem] //declared outside the initialiser so can use elsewhere
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,6 +102,8 @@ class ChecklistViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,8 +111,14 @@ class ChecklistViewController: UITableViewController {
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItemSegue" {
+            let controller = segue.destination as! AddItemViewController
+            controller.delegate = self
+        }
+    }
+    
     //table view methods
-
     
     //DATA SOURCE METHODS protocol method, determines initial set up of the tableview
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,6 +137,22 @@ class ChecklistViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
+    
+    //removing cells from the table view
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        items.remove(at: indexPath.row) //update the model (take item select out of the array
+        
+        //dont need to use delete row - the tableview is being updated by the model, so once item is removed from the array just reload data and the view loses the row. BUT no nice animation
+        
+        //let indexPaths = [indexPath] //set up a constant for an array of index paths - in this case just the indexPath passed in from the method
+        //tableView.deleteRows(at: indexPaths, with: .automatic) //delete the row - update the view
+        
+        
+        tableView.reloadData() //this does the job of the 2 lines of code above
+    }
+    
+    
     
     //DELEGATE protocol method
     
@@ -117,7 +180,7 @@ class ChecklistViewController: UITableViewController {
         }
     }
     
-    //helper to take the cell passed in & set the text to the text form th items array
+    //helper to take the cell passed in & set the text to the text from the items array
     func configureText(for cell: UITableViewCell, with item: CheckListItem) {
         
         let label = cell.viewWithTag(1000) as! UILabel
