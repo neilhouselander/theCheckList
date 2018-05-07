@@ -25,6 +25,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     @IBOutlet weak var doneButtonOutlet: UIBarButtonItem!
     
+    //make a property that is of the protocol type AddItemViewControllerDelegate
     weak var delegate: AddItemViewControllerDelegate?
     
     
@@ -52,7 +53,7 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func newCancel() {
         
-        delegate?.addItemViewControllerDidCancel(self)
+        delegate?.addItemViewControllerDidCancel(self)//using protocol method
     }
     
     @IBAction func newDone() {
@@ -61,8 +62,8 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
         item.text = textField.text!
         item.checked = false
         
-        delegate?.addItemViewController(self, didFinishAdding: item)
-        
+        delegate?.addItemViewController(self, didFinishAdding: item) //using protocol method
+        //so here we are calling a method that is implemented in other viewcontroller so clicking done creates an item based on text in textfield then fires didFinishAdding which adds the item to the array declared over there
     }
     
     //disable ability to select the row (just want the text field)

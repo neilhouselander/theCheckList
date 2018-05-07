@@ -17,7 +17,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem) {
         
         let newRowIndex = items.count
-        items.append(item)
+        items.append(item) //grabs the item from the other viewController here
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPathsArray = [indexPath]
         tableView.insertRows(at: indexPathsArray, with: .automatic)
