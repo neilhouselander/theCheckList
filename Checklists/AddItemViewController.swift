@@ -37,17 +37,21 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
 
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return false
-    }
+    //dismiss keyboard when return is hit -> however can handle by hooking up the didEnOnExit of the textfield in storyboard to the done function below (newDone)
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//
+//        return false
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
+        //make the keyboard pop up as soon as the view appears
         textField.becomeFirstResponder()
     }
     
     @IBAction func newCancel() {
-        navigationController?.popViewController(animated: true)
+        
         delegate?.addItemViewControllerDidCancel(self)
     }
     
@@ -61,20 +65,21 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
         
     }
     
-    
+    //disable ability to select the row (just want the text field)
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
     
+    //handle empty strings
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
+
         let oldText = textField.text!
-        
+
         let stringRange = Range(range, in:oldText)
         let newText = oldText.replacingCharacters(in: stringRange!, with: string)
         if newText.isEmpty {
             doneButtonOutlet.isEnabled = false
-            
+
         } else {
             doneButtonOutlet.isEnabled = true
         }
