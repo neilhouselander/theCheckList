@@ -18,22 +18,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="ChecklistItem" id="XQy-Vg-8M9">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="ChecklistItem" id="XQy-Vg-8M9">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XQy-Vg-8M9" id="5ws-d6-afL">
-                                    <rect key="frame" x="0.0" y="0.0" width="335" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="307" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0XV-NJ-IDO">
-                                            <rect key="frame" x="16" y="-6" width="319" height="50"/>
+                                            <rect key="frame" x="37" y="-6" width="276" height="50"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="√" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GRC-z3-xTF">
+                                            <rect key="frame" x="16" y="6" width="13" height="27"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="4WH-1D-q5i" kind="show" identifier="editItemSegue" trigger="accessoryAction" id="FHW-aj-HSG"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -99,7 +109,7 @@
                                 <action selector="newCancel" destination="4WH-1D-q5i" id="1da-nI-xzE"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="Og9-hc-Y1J">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="Og9-hc-Y1J">
                             <connections>
                                 <action selector="newDone" destination="4WH-1D-q5i" id="2xV-Ic-yP2"/>
                             </connections>
@@ -123,7 +133,7 @@
                     </connections>
                 </textField>
             </objects>
-            <point key="canvasLocation" x="1120.8" y="105.69715142428787"/>
+            <point key="canvasLocation" x="1255" y="107"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8A2-kr-cmw">
@@ -144,4 +154,7 @@
             <point key="canvasLocation" x="-396" y="108"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="FHW-aj-HSG"/>
+    </inferredMetricsTieBreakers>
 </document>

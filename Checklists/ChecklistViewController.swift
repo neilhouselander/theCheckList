@@ -10,6 +10,8 @@ import UIKit
 
 class ChecklistViewController: UITableViewController, AddItemViewControllerDelegate {
     
+
+    
     func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
         navigationController?.popViewController(animated: true)
     }
@@ -17,47 +19,45 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem) {
         
         let newRowIndex = items.count
-        items.append(item) //grabs the item from the other viewController here
+        items.append(item) //grabs the item from the other viewController here (its the "item" bit)
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPathsArray = [indexPath]
         tableView.insertRows(at: indexPathsArray, with: .automatic)
-        
         
         navigationController?.popViewController(animated: true)
         
     }
     
     
-    @IBAction func addItem(_ sender: Any) {
-        print("Item added")
-        
-        //create a place for the new item to be added - the end of the array is the way to go
-        //create a new checklist item
-        //give the item some values
-        //add the new item to the existing array of items
-        //create a new indexpath - where to add it to the table view
-        //use the tableview insert rows method to add a new row
-        
-        var titles = ["Say hi to Neil", "Say hi to Kora", "fly the drone","read more of book", "go for a run" ]
-        let randomNumber = arc4random_uniform(UInt32(titles.count))
-        let title = titles[Int(randomNumber)]
-        
-        let newRowIndex = items.count
-        
-        let item = CheckListItem()
-        item.text = title
-        item.checked = true
-        items.append(item)
-        
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
-
-        tableView.insertRows(at: indexPaths, with: .fade)   
-    }
+//    @IBAction func addItem(_ sender: Any) {
+//        print("Item added")
+//
+//        //create a place for the new item to be added - the end of the array is the way to go
+//        //create a new checklist item
+//        //give the item some values
+//        //add the new item to the existing array of items
+//        //create a new indexpath - where to add it to the table view
+//        //use the tableview insert rows method to add a new row
+//
+//        var titles = ["Say hi to Neil", "Say hi to Kora", "fly the drone","read more of book", "go for a run" ]
+//        let randomNumber = arc4random_uniform(UInt32(titles.count))
+//        let title = titles[Int(randomNumber)]
+//
+//        let newRowIndex = items.count
+//
+//        let item = CheckListItem()
+//        item.text = title
+//        item.checked = true
+//        items.append(item)
+//
+//        let indexPath = IndexPath(row: newRowIndex, section: 0)
+//        let indexPaths = [indexPath]
+//
+//        tableView.insertRows(at: indexPaths, with: .fade)
+//    }
     
     
     var items: [CheckListItem] //declared outside the initialiser so can use elsewhere
-    
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -122,6 +122,13 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         if segue.identifier == "addItemSegue" {
             let controller = segue.destination as! AddItemViewController
             controller.delegate = self
+        } else if segue.identifier == "editItemSegue" {
+            let controller = segue.destination as! AddItemViewController
+            controller.delegate = self
+            
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+                controller.itemToEdit = items[indexPath.row]
+            }
         }
     }
     
@@ -180,10 +187,12 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     //helper function to determine, set local variable to true or false depending on whether row0Checked is true or false. Then applies the accessory type
     func configureCheckMark(for cell: UITableViewCell, with item: CheckListItem) {
         
+        let label = cell.viewWithTag(1001) as! UILabel
+        
         if item.checked {
-            cell.accessoryType = .checkmark
+            label.text = "√"
         } else {
-            cell.accessoryType = .none
+            label.text = ""
         }
     }
     

@@ -25,6 +25,9 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     @IBOutlet weak var doneButtonOutlet: UIBarButtonItem!
     
+    //something to hold an instance of an item we want to edit
+    var itemToEdit: CheckListItem?
+    
     //make a property that is of the protocol type AddItemViewControllerDelegate
     weak var delegate: AddItemViewControllerDelegate?
     
@@ -33,6 +36,14 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         navigationItem.largeTitleDisplayMode = .never
+        
+        //if item to edit is not nil, then change the title bar & make the textfield hold the text of the checklist item
+        if let item = itemToEdit {
+            
+            title = "Edit Item"
+            textField.text = item.text
+            doneButtonOutlet.isEnabled = true
+        }
         
         
 
