@@ -10,15 +10,15 @@ import UIKit
 
 protocol AddItemViewControllerDelegate: class {
     
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController)
+    func addItemViewControllerDidCancel(_ controller: ItemDetailV)
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem)
+    func addItemViewController(_ controller: ItemDetailV, didFinishAdding item: CheckListItem)
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishEditing item: CheckListItem)
+    func addItemViewController(_ controller: ItemDetailV, didFinishEditing item: CheckListItem)
     
 }
 
-class AddItemViewController: UITableViewController, UITextFieldDelegate {
+class ItemDetailV: UITableViewController, UITextFieldDelegate {
     
     
     

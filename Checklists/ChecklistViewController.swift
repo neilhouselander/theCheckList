@@ -12,11 +12,11 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
 
     
-    func addItemViewControllerDidCancel(_ controller: AddItemViewController) {
+    func addItemViewControllerDidCancel(_ controller: ItemDetailV) {
         navigationController?.popViewController(animated: true)
     }
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem) {
+    func addItemViewController(_ controller: ItemDetailV, didFinishAdding item: CheckListItem) {
         
         let newRowIndex = items.count //how many items in array - allows us to place new thing at the end
         items.append(item) //grabs the item from the other viewController here (its the "item" bit)
@@ -28,7 +28,7 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
         
     }
     
-    func addItemViewController(_ controller: AddItemViewController, didFinishEditing item: CheckListItem) {
+    func addItemViewController(_ controller: ItemDetailV, didFinishEditing item: CheckListItem) {
         
         if let index = items.index(of: item) { //set index to equal the array item with index of the checklist item
             let indexPath = IndexPath(row: index, section: 0) //make sure we are looking at the same row in the table
@@ -104,10 +104,10 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "addItemSegue" {
-            let controller = segue.destination as! AddItemViewController
+            let controller = segue.destination as! ItemDetailV
             controller.delegate = self
         } else if segue.identifier == "editItemSegue" {
-            let controller = segue.destination as! AddItemViewController
+            let controller = segue.destination as! ItemDetailV
             controller.delegate = self
             
             if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
