@@ -18,45 +18,29 @@ class ChecklistViewController: UITableViewController, AddItemViewControllerDeleg
     
     func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem) {
         
-        let newRowIndex = items.count
+        let newRowIndex = items.count //how many items in array - allows us to place new thing at the end
         items.append(item) //grabs the item from the other viewController here (its the "item" bit)
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
+        let indexPath = IndexPath(row: newRowIndex, section: 0) //sets up the last item in the array
         let indexPathsArray = [indexPath]
-        tableView.insertRows(at: indexPathsArray, with: .automatic)
+        tableView.insertRows(at: indexPathsArray, with: .automatic) //insert a new row at the end of the list
         
         navigationController?.popViewController(animated: true)
         
     }
     
+    func addItemViewController(_ controller: AddItemViewController, didFinishEditing item: CheckListItem) {
+        
+        if let index = items.index(of: item) { //set index to equal the array item with index of the checklist item
+            let indexPath = IndexPath(row: index, section: 0) //make sure we are looking at the same row in the table
+            if let cell = tableView.cellForRow(at: indexPath) { //look at the cell with the same index number
+                configureText(for: cell, with: item) //set the title of the cell using helper method
+            }
+        }
+        navigationController?.popViewController(animated: true)
+        
+    }
     
-//    @IBAction func addItem(_ sender: Any) {
-//        print("Item added")
-//
-//        //create a place for the new item to be added - the end of the array is the way to go
-//        //create a new checklist item
-//        //give the item some values
-//        //add the new item to the existing array of items
-//        //create a new indexpath - where to add it to the table view
-//        //use the tableview insert rows method to add a new row
-//
-//        var titles = ["Say hi to Neil", "Say hi to Kora", "fly the drone","read more of book", "go for a run" ]
-//        let randomNumber = arc4random_uniform(UInt32(titles.count))
-//        let title = titles[Int(randomNumber)]
-//
-//        let newRowIndex = items.count
-//
-//        let item = CheckListItem()
-//        item.text = title
-//        item.checked = true
-//        items.append(item)
-//
-//        let indexPath = IndexPath(row: newRowIndex, section: 0)
-//        let indexPaths = [indexPath]
-//
-//        tableView.insertRows(at: indexPaths, with: .fade)
-//    }
-    
-    
+   
     var items: [CheckListItem] //declared outside the initialiser so can use elsewhere
     
     required init?(coder aDecoder: NSCoder) {

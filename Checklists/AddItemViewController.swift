@@ -14,6 +14,7 @@ protocol AddItemViewControllerDelegate: class {
     
     func addItemViewController(_ controller: AddItemViewController, didFinishAdding item: CheckListItem)
     
+    func addItemViewController(_ controller: AddItemViewController, didFinishEditing item: CheckListItem)
     
 }
 
@@ -69,12 +70,19 @@ class AddItemViewController: UITableViewController, UITextFieldDelegate {
     
     @IBAction func newDone() {
        
-        let item = CheckListItem()
-        item.text = textField.text!
-        item.checked = false
-        
-        delegate?.addItemViewController(self, didFinishAdding: item) //using protocol method
-        //so here we are calling a method that is implemented in other viewcontroller so clicking done creates an item based on text in textfield then fires didFinishAdding which adds the item to the array declared over there
+        if let itemToEdit = itemToEdit {
+            
+            itemToEdit.text = textField.text!
+            delegate?.addItemViewController(self, didFinishEditing: itemToEdit)
+        } else {
+            let item = CheckListItem()
+            item.text = textField.text!
+            item.checked = false
+            
+            delegate?.addItemViewController(self, didFinishAdding: item) //using protocol method
+            //so here we are calling a method that is implemented in other viewcontroller so clicking done creates an item based on text in textfield then fires didFinishAdding which adds the item to the array declared over there
+        }
+
     }
     
     //disable ability to select the row (just want the text field)
